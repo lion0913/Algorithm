@@ -24,28 +24,15 @@ public class Main {
         dist[0] = 0;
 
         for (int i = 0; i < M; i++) {
-//            boolean flag = false;
             st = new StringTokenizer(br.readLine());
 
             int s = Integer.parseInt(st.nextToken()) - 1;
             int e = Integer.parseInt(st.nextToken()) - 1;
             int t = Integer.parseInt(st.nextToken());
 
-//            for(int j = 0; j < list.size(); j++) {
-//                Edge tmp = list.get(j);
-//                if(s == tmp.start && e == tmp.end) {
-//                    if(t < tmp.d) {
-//                        tmp.d = t;
-//                        list.add(j, tmp);
-//                        flag = true;
-//                        break;
-//                    }
-//                }
-//            }
-//            if(!flag) {
-                Edge edge = new Edge(s, e, t);
-                list.add(edge);
-//            }
+
+            Edge edge = new Edge(s, e, t);
+            list.add(edge);
         }
 
         for(int i = 0; i < N; i++) {
