@@ -9,7 +9,7 @@ public class Main {
 
         ArrayList<Integer> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(br.readLine());
-        Queue<Integer> queue = new LinkedList<>();
+        StringBuilder sb = new StringBuilder();
 
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
@@ -17,13 +17,20 @@ public class Main {
         for(int i = 1; i <= n; i++) {
             list.add(i);
         }
+        sb.append("<");
         while(!list.isEmpty()) {
             for(int i = 0; i < k-1; i++) {
                 list.add(list.remove(0));
             }
-            queue.add(list.remove(0));
+            int remove = list.remove(0);
+            sb.append(remove);
+            if(!list.isEmpty()) {
+                sb.append(", ");
+            }
+//            sb.append(!list.isEmpty()? remove+", " : remove);
         }
-        String answer = queue.toString().replace("[","<").replace("]",">");
-        System.out.println(answer);
+        sb.append(">");
+//        String answer = queue.toString().replace("[","<").replace("]",">");
+        System.out.println(sb);
     }
 }
