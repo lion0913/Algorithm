@@ -7,7 +7,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        ArrayList<Integer> list = new ArrayList<>();
+//        ArrayList<Integer> list = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>();
         StringTokenizer st = new StringTokenizer(br.readLine());
         StringBuilder sb = new StringBuilder();
 
@@ -15,16 +16,16 @@ public class Main {
         int k = Integer.parseInt(st.nextToken());
 
         for(int i = 1; i <= n; i++) {
-            list.add(i);
+            queue.add(i);
         }
         sb.append("<");
-        while(!list.isEmpty()) {
+        while(!queue.isEmpty()) {
             for(int i = 0; i < k-1; i++) {
-                list.add(list.remove(0));
+                queue.add(queue.poll());
             }
-            int remove = list.remove(0);
+            int remove = queue.poll();
             sb.append(remove);
-            if(!list.isEmpty()) {
+            if(!queue.isEmpty()) {
                 sb.append(", ");
             }
 //            sb.append(!list.isEmpty()? remove+", " : remove);
@@ -34,3 +35,4 @@ public class Main {
         System.out.println(sb);
     }
 }
+// 1 2 3 4 5 6
