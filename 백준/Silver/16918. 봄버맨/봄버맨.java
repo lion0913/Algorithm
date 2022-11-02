@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[][] arr;
+    static char[][] arr;
     static int[][] sec;
 
     static int[] xPos = {0,0,1,-1};
@@ -21,7 +21,7 @@ public class Main {
         r = Integer.parseInt(st.nextToken());
         c = Integer.parseInt(st.nextToken());
         int n = Integer.parseInt(st.nextToken());
-        arr = new int[r][c];
+        arr = new char[r][c];
         sec = new int[r][c];
 
         for(int i = 0; i < r; i++) {
@@ -45,12 +45,14 @@ public class Main {
             bomb(now);
         }
 
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
-                System.out.print(Character.toChars(arr[i][j]));
+                sb.append(arr[i][j]);
             }
-            System.out.println();
+            sb.append("\n");
         }
+        System.out.println(sb);
     }
 
     public static void bomb(int now) {
