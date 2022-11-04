@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,6 +8,8 @@ public class Main {
 
     static int n, m;
     static int[] arr;
+    static int[] list;
+    static int[] visited;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,22 +20,20 @@ public class Main {
         m = Integer.parseInt(st.nextToken());
 
         arr = new int[n];
-        int[] visited = new int[n];
+        visited = new int[n];
+
+        list = new int[m];
 
         for(int i = 0; i < n; i++) {
             arr[i] = i+1;
         }
 
-//        ArrayList<Integer> list = new ArrayList<>();
-
-        int[] list = new int[m];
-
-        dfs(0, list, visited);
+        backtracking(0);
     }
 
-    static void dfs(int cnt, int[] list, int[] visited) {
+    static void backtracking(int cnt) {
         if(cnt == m) {
-            print(list);
+            print();
             return;
         }
 
@@ -40,16 +41,17 @@ public class Main {
             if(visited[i] == 0) {
                 visited[i] = 1;
                 list[cnt] = arr[i];
-                dfs(cnt+1, list, visited);
+                backtracking(cnt+1);
                 visited[i] = 0;
             }
         }
     }
 
-    static void print(int[] list) {
+    static void print() {
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < m; i++) {
-            System.out.print(list[i]+" ");
+            sb.append("%d ".formatted(list[i]));
         }
-        System.out.println();
+        System.out.println(sb);
     }
 }
