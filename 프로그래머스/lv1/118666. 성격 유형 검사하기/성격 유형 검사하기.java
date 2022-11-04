@@ -1,32 +1,37 @@
 import java.util.*;
-
 class Solution {
     public String solution(String[] survey, int[] choices) {
-String answer = "";
-        Map<Character, Integer> map = new HashMap<>();
-        String type = "RTCFJMAN";
+        String answer = "";
+        Character[][] types = {{'R', 'T'},{'C', 'F'}, {'J','M'},{'A', 'N'}};
 
-        for(int i = 0; i < type.length(); i++) {
-            map.put(type.charAt(i), 0);
-        }
-
-        for(int i = 0; i < choices.length; i++) {
-            if(choices[i] < 4) {
-                Character s = survey[i].charAt(0);
-                map.put(s, map.get(s) + 4 - choices[i]);
-            } else if (choices[i] > 4) {
-                Character s = survey[i].charAt(1);
-                map.put(s, map.get(s)+choices[i] - 4);
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i = 0; i < survey.length; i++) {
+            String s = survey[i];
+            int choice = choices[i];
+            if(choice < 4) {
+                Integer num = map.getOrDefault(s.charAt(0), 0);
+                map.put(s.charAt(0), num+ (4-choice));
+            } else if(choice > 4) {
+                int num = map.getOrDefault(s.charAt(1), 0);
+                map.put(s.charAt(1), num+ (choice-4));
             }
         }
 
-        for(int i = 0; i < type.length(); i+=2) {
-            if(map.get(type.charAt(i)) >= map.get(type.charAt(i+1))) {
-                answer += String.valueOf(type.charAt(i));
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < 4; i++) {
+            int t1 = map.getOrDefault(types[i][0], 0);
+            int t2 = map.getOrDefault(types[i][1], 0);
+
+            if(t1 > t2) {
+                sb.append(types[i][0]);
+            } else if(t1 < t2) {
+                sb.append(types[i][1]);
             } else {
-                answer += String.valueOf(type.charAt(i+1));
+                char c = types[i][0]-types[i][1] < 0? types[i][0] : types[i][1];
+                sb.append(c);
             }
         }
-        return answer;
+
+        return sb.toString();
     }
 }
