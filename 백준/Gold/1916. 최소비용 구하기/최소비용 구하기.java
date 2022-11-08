@@ -1,86 +1,94 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
-    static ArrayList<Graph> graphs;
-    static int B, N;
+
+    static ArrayList<ArrayList<Graph>> list;
+    static int A, B, N;
+
     static int[] dist;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+        StringTokenizer st;
         N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
 
-        graphs = new ArrayList<>();
+        list = new ArrayList<>();
         dist = new int[N+1];
-        for(int i = 0; i <= N; i++) {
+
+        for(int i = 0; i < N+1; i++) {
+            list.add(new ArrayList<>());
             dist[i] = Integer.MAX_VALUE;
         }
 
-        StringTokenizer st;
-        for(int i = 0; i < M; i++) {
+        for(int m = 0; m < M; m++) {
             st = new StringTokenizer(br.readLine());
             int s = Integer.parseInt(st.nextToken());
             int e = Integer.parseInt(st.nextToken());
             int d = Integer.parseInt(st.nextToken());
 
-            graphs.add(new Graph(s, e, d));
+            list.get(s).add(new Graph(e,d));
         }
 
         st = new StringTokenizer(br.readLine());
-        int A = Integer.parseInt(st.nextToken());
+        A = Integer.parseInt(st.nextToken());
         B = Integer.parseInt(st.nextToken());
 
         dijkstra(A);
+
         System.out.println(dist[B]);
     }
 
-    public static void dijkstra(int a) {
+    public static void dijkstra(int start) {
         PriorityQueue<Graph> queue = new PriorityQueue<>();
-        int[] visited = new int[N+1];
 
-        queue.add(new Graph(a, a,0));
+        int[] visited = new int[N+1];
+        queue.add(new Graph(start, 0));
+
         while(!queue.isEmpty()) {
             Graph cur = queue.poll();
+            visited[cur.end] = 1;
+
             if(cur.end == B) {
                 break;
             }
-            if(visited[cur.end] == 0) {
-                visited[cur.end] = 1;
-                for(Graph graph : graphs) {
 
-                    if (graph.start == cur.end) {
-                        if ((visited[graph.end] == 0) && (cur.dist + graph.dist < dist[graph.end])) {
-                            dist[graph.end] = cur.dist + graph.dist;
-                            queue.add(new Graph(graph.start, graph.end, dist[graph.end]));
-                        }
-                    }
+            //연결되어있는 도시를 탐색
+            for(Graph graph : list.get(cur.end)) {
+                //가능한지 확인
+                if(visited[graph.end] == 1) {
+                    continue;
                 }
+
+                //최솟값이 되는지 확인 후 dist 배열 갱신
+                if(cur.dist + graph.dist < dist[graph.end]) {
+                    dist[graph.end] = cur.dist + graph.dist;
+                    queue.add(new Graph(graph.end, dist[graph.end]));
+                }
+
             }
         }
     }
 }
 
 class Graph implements Comparable<Graph> {
-    int start, end, dist;
+    int end, dist;
 
-    Graph(int start, int end, int dist) {
-        this.start = start;
+    Graph(int end, int dist) {
         this.end = end;
         this.dist = dist;
     }
 
     @Override
-    public int compareTo(Graph g) {
-        if(this.dist == g.dist) {
-            return this.start - g.start;
+    public int compareTo(Graph graph) {
+        if(this.dist == graph.dist) {
+            return this.end - graph.end;
         }
-        return this.dist - g.dist;
+
+        return this.dist - graph.dist;
     }
 }
