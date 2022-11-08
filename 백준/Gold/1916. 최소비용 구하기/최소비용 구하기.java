@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -47,9 +48,12 @@ public class Main {
         queue.add(new Graph(a, a,0));
         while(!queue.isEmpty()) {
             Graph cur = queue.poll();
+            if(cur.end == B) {
+                break;
+            }
             if(visited[cur.end] == 0) {
                 visited[cur.end] = 1;
-            for(Graph graph : graphs) {
+                for(Graph graph : graphs) {
 
                     if (graph.start == cur.end) {
                         if ((visited[graph.end] == 0) && (cur.dist + graph.dist < dist[graph.end])) {
@@ -62,6 +66,7 @@ public class Main {
         }
     }
 }
+
 class Graph implements Comparable<Graph> {
     int start, end, dist;
 
@@ -79,4 +84,3 @@ class Graph implements Comparable<Graph> {
         return this.dist - g.dist;
     }
 }
-
