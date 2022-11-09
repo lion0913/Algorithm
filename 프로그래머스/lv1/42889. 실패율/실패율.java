@@ -14,16 +14,17 @@ class Solution {
             map.put(stage, num+1);
         }
 
-        PriorityQueue<Stage> queue = new PriorityQueue<>();
+        List<Stage> stageList = new ArrayList<>();
         for(int i = 1; i < N+1; i++) {
             double failRate = map.get(i) == 0? 0: (double)map.get(i)/total;
-            queue.add(new Stage(i, failRate));
+            stageList.add(new Stage(i, failRate));
             total -= map.get(i);
         }
 
+        Collections.sort(stageList);
         int[] answer = new int[N];
         for(int i = 0; i < N; i++) {
-            answer[i] = queue.poll().level;
+            answer[i] = stageList.get(i).level;
         }
         return answer;
     }
