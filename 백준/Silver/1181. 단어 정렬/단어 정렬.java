@@ -29,8 +29,11 @@ public class Main {
             }
         };
         Collections.sort(list, strComparator);
+        
+        StringBuilder sb = new StringBuilder();
         for(String s : list) {
-            System.out.println(s);
+            sb.append(s+"\n");
         }
+        System.out.println(sb);
     }
 }
