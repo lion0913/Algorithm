@@ -15,9 +15,7 @@ public class Main {
         ArrayList<String> list = new ArrayList<>();
         for(int n = 0; n < N; n++) {
             String s = br.readLine();
-            if(!list.contains(s)) {
-                list.add(s);
-            }
+            list.add(s);
         }
         Comparator<String> strComparator = new Comparator<String>() {
             @Override
@@ -29,10 +27,15 @@ public class Main {
             }
         };
         Collections.sort(list, strComparator);
-        
+
         StringBuilder sb = new StringBuilder();
+        String before = "";
         for(String s : list) {
+            if(s.equals(before)) {
+                continue;
+            }
             sb.append(s+"\n");
+            before = s;
         }
         System.out.println(sb);
     }
