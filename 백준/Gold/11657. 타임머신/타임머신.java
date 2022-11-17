@@ -2,75 +2,74 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-    static List<Edge> list = new ArrayList<>();
+    static int INF = Integer.MAX_VALUE;
     public static void main(String[] args) throws IOException {
-
-        int INF = Integer.MAX_VALUE;
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        long[] dist = new long[N];
-        Arrays.fill(dist, INF);
-        dist[0] = 0;
+        long[] dist = new long[N+1];
+        for(int i = 2; i < N+1; i++) {
+            dist[i] = INF;
+        }
+        dist[1] = 0;
 
-        for (int i = 0; i < M; i++) {
+        Edge[] edges = new Edge[M];
+        for(int m = 0; m < M; m++) {
             st = new StringTokenizer(br.readLine());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
 
-            int s = Integer.parseInt(st.nextToken()) - 1;
-            int e = Integer.parseInt(st.nextToken()) - 1;
-            int t = Integer.parseInt(st.nextToken());
-
-
-            Edge edge = new Edge(s, e, t);
-            list.add(edge);
+            edges[m] = new Edge(s,e,v);
         }
 
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < M; j++) {
-                int s = list.get(j).start;
-                int e = list.get(j).end;
-                int d = list.get(j).d;
-                if(dist[s] != INF) {
-                    if(dist[e] > dist[s] + d) {
-                        dist[e] = dist[s] + d;
-                        if(i == N-1) {
-                            System.out.println("-1");
-                            return;
-                        }
-
+        for(int n = 1; n < N; n++) {
+            for(int m = 0; m < M; m++) {
+                Edge edge = edges[m];
+                if(dist[edge.s] != INF) {
+                    if(dist[edge.e] > dist[edge.s] + edge.value) {
+                        dist[edge.e] = dist[edge.s] + edge.value;
                     }
                 }
             }
         }
 
-        for(int i = 1; i < N; i++) {
-            if(dist[i] == INF) System.out.println("-1");
-            else System.out.println(dist[i]);
+        //음수 가중치 체크
+        for(int m = 0; m < M; m++) {
+            Edge edge = edges[m];
+            if(dist[edge.s] != INF) {
+                if(dist[edge.e] > dist[edge.s] + edge.value) {
+                    System.out.println("-1");
+                    return;
+                }
+            }
         }
 
+        StringBuilder sb = new StringBuilder();
+        for(int i = 2; i <= N; i++) {
+            if(dist[i] == INF) {
+                sb.append("-1\n");
+            } else {
+                sb.append(dist[i]+"\n");
+            }
+        }
+
+        System.out.println(sb);
     }
 }
 
 class Edge {
-    int start;
-    int end;
-    int d;
+    int s, e, value;
 
-    Edge(int start, int end, int d){
-        this.start = start;
-        this.end = end;
-        this.d = d;
+    public Edge(int s, int e, int value) {
+        this.s = s;
+        this.e = e;
+        this.value = value;
     }
-
 }
