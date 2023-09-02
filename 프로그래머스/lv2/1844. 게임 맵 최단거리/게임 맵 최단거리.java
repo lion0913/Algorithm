@@ -1,14 +1,14 @@
 import java.util.*;
 
 class Solution {
-    static int finalX, finalY;
     static int[][] map;
     static boolean[][] visited;
-    static int answer = Integer.MAX_VALUE;
-    static int[] routeX = {0, 0, -1, 1};
-    static int[] routeY = {-1,1,0,0};
+    static int finalY, finalX;
     
     public int solution(int[][] maps) {
+        int[] routeX = {0, 0, -1, 1};
+        int[] routeY = {-1,1,0,0};
+        
         finalY = maps.length - 1;
         finalX = maps[0].length - 1;
         map = maps;
@@ -21,9 +21,7 @@ class Solution {
         while(!q.isEmpty()) {
             int[] values = q.poll();
             int cnt = values[2];
-            if(cnt > maps.length * maps[0].length) {
-                return -1;
-            }
+
             if(values[0] == finalY && values[1] == finalX) {
                 return cnt;
             }
@@ -38,7 +36,7 @@ class Solution {
                 }
             }
         }
-        return answer == Integer.MAX_VALUE ? -1 : answer;
+        return -1;
     }
     
     public boolean checkValidate(int x, int y) {
